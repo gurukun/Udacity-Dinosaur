@@ -35,7 +35,7 @@ function Creature(species, weight, height, diet, where, when, fact) {
 
 Creature.prototype.heightCompare = function(human){
   const heightDifference = this.height - human;
-  const heightFact = `${this.species} is ${heightDifference}' taller than you.<br>Yes, they are tall!`
+  const heightFact = `${this.species} is ${heightDifference}' taller than you. Yes, they are tall!`
   this.fact.push(heightFact)
 };
 
