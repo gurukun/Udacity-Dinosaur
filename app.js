@@ -120,7 +120,7 @@ function fetchJSONData(){
 
 const callback = () => {
   let form = document.forms["dino-compare"];
-  let human = humanDataViaForm(form);
+  let human = humanDatafrom(form);
     hide(form);
     fetchJSONData().then(data => {
     createDinos(data.Dinos, human);
