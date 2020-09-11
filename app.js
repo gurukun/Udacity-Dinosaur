@@ -104,25 +104,29 @@ const render = obj => {
   gridElm.innerHTML = gridItems
 };
 
-async function callback(){
+function fetchJSONData(){
+   return fetch("dino.json")
+   .then(function (response) {
+   if (response.status !== 200) {
+   throw new Error("Looks like there was a problem. Status Code: " +
+   response.status);
+   }
+   return response.json();
+   })
+   .catch(function(err) {
+   throw new Error(err);
+   });
+ };
+
+const callback = () => {
   let form = document.forms["dino-compare"];
-  let human = humanDatafrom(form);
-  let response = await fetch('dino.json');
-  let data = await response.json();
-  alert('reaidng JSON file')
-  hide(form);
-  allCreatures = await createCreatures(data, human);
-  render(allCreatures)
+  let human = humanDataViaForm(form);
+    hide(form);
+    fetchJSONData().then(data => {
+    createDinos(data.Dinos, human);
+    createHuman(human);
+    render(allCreatures);
+   })
 }
 
 document.getElementById ("btn").addEventListener("click", callback, false)
-
-//use statics
-//const callback = () => {
-//   let form = document.forms["dino-compare"];
-//   let human = humanDataViaForm(form);
-//     hide(form);
-//     createDinos(objectJson.Dinos, human);
-//     createHuman(human);
-//     render(allCreatures);
-// }
