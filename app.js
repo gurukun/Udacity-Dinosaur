@@ -123,8 +123,7 @@ const callback = () => {
   let human = humanDatafrom(form);
     hide(form);
     fetchJSONData().then(data => {
-    createDinos(data.Dinos, human);
-    createHuman(human);
+    createCreatures(data.Dinos, human);
     render(allCreatures);
    })
 }
