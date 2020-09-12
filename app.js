@@ -1,4 +1,3 @@
-//store data
 let allCreatures = []
 
 const hide = form => {
@@ -30,31 +29,40 @@ function Creature(species, weight, height, diet, where, when, fact) {
   this.fact = [fact];
 }
 
-Creature.prototype.heightCompare = function(human){
-  const heightDifference = this.height - human;
-  const heightFact = `${this.species} is ${heightDifference}' taller than you. Yes, they are tall!`
+Creature.prototype.heightCompare = function(humanf, humani){
+  const humaninch = parseInt(humanf*12)+ parseInt(humani);
+  const dinoinch = parseInt(this.height);
+  const heightDifference = dinoinch - humaninch;
+  let heightFact = ""; 
+  if (humaninch > dinoinch) {
+    heightFact = `You are ${-(heightDifference)} inches taller than ${this.species}.`
+  } else if (humaninch === dinoinch) {
+    heightFact = "You and " + this.species + " are equally tall.";
+  } else {
+    heightFact = `${this.species} is ${heightDifference} inches taller than you.`;
+    console.log(heightDifference, this.height, humaninch)
+  }
   this.fact.push(heightFact)
 };
 
 Creature.prototype.weightCompare = function(human){
   let weightFact = "";
   if (human > this.weight) {
-    const difference = human - this.weight;
-    weightFact = `You are ${difference} lb heavier than ${this.species}!`;
+    weightFact = "You are heavier than " + this.species + ". That means you are heavier than dinosors!";
   } else if (human === this.weight) {
-    weightFact = "You and " + this.species + " are equally tall.";
+    weightFact = "Weight of you and " + this.species + " are the same!";
   } else {
-    weightFact = "You are lighter than " + this.species + ". Yes, dinosaurs are heavy!";
+    weightFact = "You are lighter than " + this.species + ". Yes, dinosors are heavy!";
   }
   this.fact.push(weightFact)
 };
 
 Creature.prototype.dietCompare = function(human){
   let dietFact = "";
-  if (human === this.diet) {
-    dietFact = "You have same diet as " + this.species + ". Would be fun to share meal with them!";
+  if (human.toLowerCase() === this.diet) {
+    dietFact = `You have same diet as ${this.species}. ${human} diet is popular!`;
   } else {
-    dietFact = "Your diet is defferent from " + this.species + ". Everyone is different:)";
+    dietFact = "Your diet is defferent from " + this.species + ".";
   }
   this.fact.push(dietFact)
 };
@@ -67,7 +75,21 @@ function Pigeon(species, weight, height, diet, where, when, fact){
 function Human(species, weight, height, diet, name){
   Creature.call(this, species, weight, height, diet)
   this.name = name;
-  this.fact = '<br><br>';
+};
+
+function getRandom(array){
+  const human = array[8];  
+  let newArr = [];
+    for(let i = 0; i < array.length-1; i++){
+      const temp = array[i]
+      const j = Math.floor(Math.random()*i)
+      array[i] = array[j]
+      array[j] = temp
+    }
+  array.pop();
+  newArr = array;
+  newArr.splice(4, 0, human);
+  return newArr;
 };
 
 function createCreatures(data, human){
@@ -77,20 +99,20 @@ function createCreatures(data, human){
     allCreatures.push(pigeon)
   } else {
     let dino = new Creature(obj.species, obj.weight, obj.height, obj.diet, obj.where, obj.when, obj.fact);
-    dino.heightCompare(human.feet);
+    dino.heightCompare(human.feet, human.inches);
     dino.weightCompare(human.weight);
     dino.dietCompare(human.diet)
     allCreatures.push(dino);}
  })
  let person = new Human('Human', human.weight, human.feet+'.'+human.inches, human.diet, human.name);
- allCreatures.splice(4, 0, person);
+ allCreatures.push(person);
 }
 
 const render = obj => {
     let gridItems = ""
     let gridElm = document.getElementById('grid')
-    
-    obj.forEach((data, i) => {
+    let newArr = getRandom(obj)
+    newArr.forEach((data, i) => {
       const index = Math.floor(Math.random() * 4);
       let itemElm = '<div class="grid-item" data-key="'+i+'">' +
       '<img src="images/' + data.species.toLowerCase() + '.png" alt="" />' +
