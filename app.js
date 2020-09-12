@@ -40,7 +40,6 @@ Creature.prototype.heightCompare = function(humanf, humani){
     heightFact = "You and " + this.species + " are equally tall.";
   } else {
     heightFact = `${this.species} is ${heightDifference} inches taller than you.`;
-    console.log(heightDifference, this.height, humaninch)
   }
   this.fact.push(heightFact)
 };
