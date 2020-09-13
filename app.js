@@ -33,7 +33,6 @@ Creature.prototype.heightCompare = function(humanf, humani){
   const humaninch = parseInt(humanf*12)+ parseInt(humani);
   const dinoinch = parseInt(this.height);
   const heightDifference = dinoinch - humaninch;
-  console.log(heightDifference,dinoinch,humaninch,humanf,humani);
   let heightFact = ""; 
   if (humaninch > dinoinch) {
     heightFact = `You are ${-(heightDifference)} inches taller than ${this.species}.`
